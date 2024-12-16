@@ -1,25 +1,30 @@
 using Assets.src;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.Serialization;
 
 public class Character : MonoBehaviour
 {
+    public Vector2Int PositionInLabyrinth { get; set; }
+
+    public UnityEvent OnMoved = new UnityEvent();
+    
+    protected bool _isMoving = false;
+    protected bool _canMove = true;
+
     private GameManager _gameManager => GameManager.Instance;
 
-    private Labyrinth _labyrinth => _gameManager.Labyrinth;
+    protected Labyrinth _labyrinth => _gameManager.Labyrinth;
 
-    private bool _isMoving = false;
+    protected void MoveUp() => StartCoroutine(Move(new Vector2Int(PositionInLabyrinth.x, PositionInLabyrinth.y - 1)));
+    protected void MoveDown() => StartCoroutine(Move(new Vector2Int(PositionInLabyrinth.x, PositionInLabyrinth.y + 1)));
+    protected void MoveRight() => StartCoroutine(Move(new Vector2Int(PositionInLabyrinth.x + 1, PositionInLabyrinth.y)));
+    protected void MoveLeft() => StartCoroutine(Move(new Vector2Int(PositionInLabyrinth.x - 1, PositionInLabyrinth.y)));
 
-    protected Vector2Int _positionInLabyrinth;
-
-    protected void MoveUp() => StartCoroutine(Move(new Vector2Int(_positionInLabyrinth.x, _positionInLabyrinth.y - 1)));
-    protected void MoveDown() => StartCoroutine(Move(new Vector2Int(_positionInLabyrinth.x, _positionInLabyrinth.y + 1)));
-    protected void MoveRight() => StartCoroutine(Move(new Vector2Int(_positionInLabyrinth.x + 1, _positionInLabyrinth.y)));
-    protected void MoveLeft() => StartCoroutine(Move(new Vector2Int(_positionInLabyrinth.x - 1, _positionInLabyrinth.y)));
-
-    private IEnumerator Move(Vector2Int newPositionInLabyrinth)
+    protected IEnumerator Move(Vector2Int newPositionInLabyrinth)
     {
-        if (_isMoving) yield break;
+        if (_isMoving || !_canMove) yield break;
         if (!_labyrinth.IsInBounds(newPositionInLabyrinth)) yield break;
 
         _isMoving = true;
@@ -43,7 +48,9 @@ public class Character : MonoBehaviour
         }
 
         transform.position = moveTo;
-        _positionInLabyrinth = newPositionInLabyrinth;
+        PositionInLabyrinth = newPositionInLabyrinth;
         _isMoving = false;
+        
+        OnMoved.Invoke();
     }
 }
