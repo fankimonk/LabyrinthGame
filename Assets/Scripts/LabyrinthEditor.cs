@@ -1,11 +1,14 @@
-﻿using System.Globalization;
+﻿using System;
+using System.Globalization;
+using System.Linq;
+using System.Text;
 using Assets.src;
 using TMPro;
 using UnityEngine;
 
 namespace DefaultNamespace
 {
-    public class EditMenuInitializer : MonoBehaviour
+    public class LabyrinthEditor : MonoBehaviour
     {
         [SerializeField] private TMP_InputField InputFieldPrefab; // Префаб TMP_InputField
         [SerializeField] private RectTransform CanvasRect; // Ссылка на Canvas
@@ -13,11 +16,13 @@ namespace DefaultNamespace
         [SerializeField] private float FieldSpacing = 10f; // Зазор между полями
         [SerializeField] private float FieldScale = 1.5f; // Масштаб ширины инпут-филдов
         [SerializeField] private float EdgePadding = 20f;
-        
-        private GameManager _gameManager => GameManager.Instance;
-        private Labyrinth _labyrinth => _gameManager.Labyrinth;
+
+        [SerializeField] private LabyrinthBuilder LabyrinthBuilder;
+        private Labyrinth _labyrinth => LabyrinthBuilder.Labyrinth;
 
         private GameObject _editMenuGo = null;
+
+        private TMP_InputField[,] _inputFields;
 
         public void GenerateEditMenu()
         {
@@ -26,6 +31,8 @@ namespace DefaultNamespace
             _editMenuGo.transform.SetParent(CanvasRect);
             _editMenuGo.transform.localPosition = Vector3.zero;
 
+            _inputFields = new TMP_InputField[_labyrinth.Height, _labyrinth.Width];
+            
             float screenWidth = CanvasRect.rect.width - 2 * EdgePadding;
             float screenHeight = CanvasRect.rect.height - 2 * EdgePadding;
 
@@ -57,8 +64,18 @@ namespace DefaultNamespace
                     rectTransform.anchoredPosition = new Vector2(posX, posY);
 
                     newInputField.text = _labyrinth[i, j].Weight.ToString(CultureInfo.CurrentCulture);
+                    _inputFields[i, j] = newInputField;
                 }
             }
+        }
+
+        public void EditLabyrinth()
+        {
+            var weights = new float[_inputFields.GetLength(0), _inputFields.GetLength(1)];
+            for (int i = 0; i < weights.GetLength(0); i++)
+                for (int j = 0; j < weights.GetLength(1); j++)
+                    weights[i, j] = float.Parse(_inputFields[i, j].text);
+            LabyrinthBuilder.Rebuild(weights);
         }
 
         public void DestroyEditMenu()

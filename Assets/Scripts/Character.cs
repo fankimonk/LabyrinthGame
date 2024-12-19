@@ -13,7 +13,7 @@ public class Character : MonoBehaviour
     protected bool _isMoving = false;
     protected bool _canMove = true;
 
-    private GameManager _gameManager => GameManager.Instance;
+    protected GameManager _gameManager => GameManager.Instance;
 
     protected Labyrinth _labyrinth => _gameManager.Labyrinth;
 

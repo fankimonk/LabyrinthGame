@@ -43,13 +43,30 @@ public class LabyrinthBuilder : MonoBehaviour
 
     public void Build()
     {
+        Destroy();
+
         Labyrinth = new Labyrinth(Width, Height, MinValue, MaxValue, ScaleCoeffX, ScaleCoeffZ);
 
-        if (_labyrinthGo != null) Destroy(_labyrinthGo);
+        GenerateGOs();
+    }
+    
+    public void Rebuild(float[,] weights)
+    {
+        var newLabyrinth = new Labyrinth(weights);
+        
+        Destroy();
+        
+        Labyrinth = newLabyrinth;
+        
+        GenerateGOs();
+    }
 
+    private void GenerateGOs()
+    {
         _labyrinthGo = new GameObject("Labyrinth");
         _labyrinthGo.transform.position = Vector3.zero;
 
+        
         for (int i = 0; i < Labyrinth.Height; i++)
         {
             for (int j = 0; j < Labyrinth.Width; j++)
@@ -62,10 +79,8 @@ public class LabyrinthBuilder : MonoBehaviour
                 cellGo.GetComponent<Renderer>().material.color = GetGradientColor(Labyrinth[i, j].Weight);
             }
         }
-        
-        Debug.Log(Labyrinth.ToString());
     }
-
+    
     public void Destroy()
     {
         if (_labyrinthGo != null) Destroy(_labyrinthGo);

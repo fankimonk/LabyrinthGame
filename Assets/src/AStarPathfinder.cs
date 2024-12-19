@@ -18,7 +18,7 @@ namespace Assets.src
             if (!_labyrinth.IsInBounds(start) || !_labyrinth.IsInBounds(goal))
                 throw new ArgumentException("Start or goal is out of labyrinth bounds.");
 
-            var openSet = new PriorityQueue();
+            var openSet = new PriorityQueueVector2Int();
             var cameFrom = new Dictionary<Vector2Int, Vector2Int>();
 
             var gScore = new Dictionary<Vector2Int, float>();

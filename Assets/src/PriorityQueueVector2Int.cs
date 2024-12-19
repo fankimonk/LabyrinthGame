@@ -5,9 +5,9 @@ using UnityEngine;
 
 namespace Assets.src
 {
-    public class PriorityQueue
+    public class PriorityQueueVector2Int
     {
-        private readonly SortedSet<(float priority, Vector2Int item)> _queue = new(new PriorityQueueComparer());
+        private readonly SortedSet<(float priority, Vector2Int item)> _queue = new(new PriorityQueueComparerVector2Int());
 
         public int Count => _queue.Count;
 
@@ -33,7 +33,7 @@ namespace Assets.src
             return _queue.Any(x => x.item == item);
         }
 
-        private class PriorityQueueComparer : IComparer<(float priority, Vector2Int item)>
+        private class PriorityQueueComparerVector2Int : IComparer<(float priority, Vector2Int item)>
         {
             public int Compare((float priority, Vector2Int item) x, (float priority, Vector2Int item) y)
             {

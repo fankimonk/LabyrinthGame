@@ -1,0 +1,60 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Assets.src.AStarPathfinder">
+    <Position X="1" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAAAAAIAIAAAAAAAAIAAAAAAAAAAAIAAAAAEAAAAAAA=</HashCode>
+      <FileName>Assets\src\AStarPathfinder.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Assets.src.Labyrinth">
+    <Position X="2.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAAAAAAABAAAAAgACAIAAEAAAAAAAAAEAAAgAAAAAAA=</HashCode>
+      <FileName>Assets\src\Labyrinth.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Character">
+    <Position X="4.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEAAAAACIAACAAAAIEAAAAAAAAAAACIQEAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Character.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Enemy">
+    <Position X="6.75" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACACAAAAEAAAAAIAIAAAAAAIgAAAAYAgBAA=</HashCode>
+      <FileName>Assets\Scripts\Enemy.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Player">
+    <Position X="6.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Player.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DefaultNamespace.LabyrinthEditor">
+    <Position X="8.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ggAAAAAEAAAAAEACAIAAAEAAAAAAAAAQAAICAAIEAAA=</HashCode>
+      <FileName>Assets\Scripts\LabyrinthEditor.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LabyrinthBuilder">
+    <Position X="10.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgQAgAAABSACQAgAACMAAEAEAYBggAAEISAgAAAAgAA=</HashCode>
+      <FileName>Assets\Scripts\LabyrinthBuilder.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Struct Name="Assets.src.LabyrinthCell">
+    <Position X="2.75" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAgAAAAAAAAACAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\src\LabyrinthCell.cs</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

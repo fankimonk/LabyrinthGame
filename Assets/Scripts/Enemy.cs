@@ -1,9 +1,11 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 using Assets.src;
 using UnityEngine;
+using Debug = UnityEngine.Debug;
 
 public class Enemy : Character
 {
@@ -13,13 +15,18 @@ public class Enemy : Character
 
     private List<Vector2Int> _path = new List<Vector2Int>();
     
+    private PathDrawer _pathDrawer => _gameManager.PathDrawer;
+    
     private Coroutine _movementCoroutine = null;
     private Coroutine _recalculateCoroutine = null;
 
+    private Vector2Int _nextPoint;
+    
     private void Start()
     {
+        _nextPoint = PositionInLabyrinth;
         _pathfinder = new AStarPathfinder(_labyrinth);
-
+        
         Player.OnMoved.AddListener(StartRecalculatePath);
     }
 
@@ -31,6 +38,14 @@ public class Enemy : Character
 
     private IEnumerator RecalculatePath()
     {
+        var stopwatch = new Stopwatch();
+        stopwatch.Start();
+        _path = _pathfinder.FindPath(_nextPoint, Player.PositionInLabyrinth);
+        stopwatch.Stop();
+        Debug.Log(stopwatch.ElapsedMilliseconds);
+        stopwatch.Reset();
+        
+        _pathDrawer.DrawPath(_labyrinth, _path);
         if (_movementCoroutine != null) StopCoroutine(_movementCoroutine);
         while (true)
         {
@@ -39,11 +54,8 @@ public class Enemy : Character
                 yield return null;
                 continue;
             }
-            
-            _path = _pathfinder.FindPath(PositionInLabyrinth, Player.PositionInLabyrinth);
 
             _movementCoroutine = StartCoroutine(MoveAlongPath());
-
             yield break;
         }
     }
@@ -51,6 +63,18 @@ public class Enemy : Character
     private IEnumerator MoveAlongPath()
     {
         foreach (var point in _path)
+        {
+            if (point == PositionInLabyrinth) continue;
+            _nextPoint = point;
             yield return StartCoroutine(Move(point));
+        }
+    }
+
+    private void OnCollisionEnter(Collision other)
+    {
+        if (other.gameObject.TryGetComponent(out Player player))
+        {
+            _gameManager.OnLose.Invoke();
+        }
     }
 }
